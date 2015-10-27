@@ -60,7 +60,7 @@ def main():
         logger.info("The file {} should be renamed to {}".format(meta['File:FileName'], filename))
 
         if os.path.exists(destination):
-            log.warn("A file with the same name already exists at {}".format(destination))
+            logger.warn("A file with the same name already exists at {}".format(destination))
             continue
 
         os.rename(meta['SourceFile'], destination)
