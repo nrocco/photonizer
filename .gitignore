@@ -1,0 +1,4 @@
+/env
+/photonizer.egg-info
+/dist
+*.pyc
