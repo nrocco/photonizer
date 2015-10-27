@@ -3,7 +3,7 @@ from setuptools import setup
 
 setup(
     name='photonizer',
-    version = '0.1.1',
+    version = '0.1.2',
     description='a command line tool to organize photos using plain files and folders.',
     author='Nico Di Rocco',
     author_email='dirocco.nico@gmail.com',
