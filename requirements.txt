@@ -1,1 +1,1 @@
-https://github.com/smarnach/pyexiftool/tarball/master
+-e .
