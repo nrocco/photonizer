@@ -12,6 +12,8 @@ setup(
     install_requires=[
         'pycli-tools>=2.0.2',
         'PyExifTool==0.1',
+        'ImageHash==2.2',
+        'Pillow==3.3.0',
     ],
     dependency_links = [
         'https://github.com/smarnach/pyexiftool/tarball/master#egg=pyexiftool-0.1',

@@ -3,6 +3,8 @@ from exiftool import ExifTool
 from re import compile
 from logging import getLogger
 from pycli_tools.commands import Command, arg
+from PIL import Image
+from imagehash import dhash
 
 RE_DATE = compile(r'^(?P<year>\d{4}):(?P<month>\d{2}):(?P<day>\d{2}) (?P<hour>\d{2}):(?P<minute>\d{2}):(?P<second>\d{2})(\.(?P<subsec>\d+))?.*$')
 FILE_NAME = '{year}.{month:0>2d}.{day:0>2d}-{hour:0>2d}.{minute:0>2d}.{second:0>2d}.{subsec:0<3d}.{ext}'
@@ -84,6 +86,20 @@ class RenamePhotos(Command):
 
             if os.path.exists(destination):
                 log.warn("[{}] A file with the same name already exists at destination {}".format(meta['File:FileName'], destination))
+
+                source = os.path.join(meta['File:Directory'], meta['File:FileName'])
+
+                source_img = Image.open(source)
+                destination_img = Image.open(destination)
+                source_hash = str(dhash(source_img))
+                destination_hash = str(dhash(destination_img))
+
+                if source_hash == destination_hash:
+                    log.info("[{}] Source and destination files are the same image ({} == {})".format(meta['File:FileName'], source_hash, destination_hash))
+                    # TODO: find image of best quality and remove the other
+                else:
+                    log.warn("[{}] These are different images, please resolve manually ({} != {}): open '{}' '{}'".format(meta['File:FileName'], source_hash, destination_hash, source, destination))
+
                 continue
 
             if not args.dry_run:
