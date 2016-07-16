@@ -15,9 +15,6 @@ develop: $(PY)
 deps: $(PY)
 	if [ -f requirements.txt ]; then $(PIP) install -r requirements.txt; fi
 
-clear:
-	@echo TODO create this
-
 bump:
 	@echo "Current $(PACKAGE) version is: $(shell sed -nE "s/^__version__ = .([^']+)./\\1/p" $(PACKAGE)/__init__.py)"
 	@test ! -z "$(version)" || ( echo "specify a version number: make bump version=X.X.X" && exit 1 )
@@ -31,3 +28,13 @@ bump:
 	@echo "Version $(version) commited and tagged. Don't forget to push to github."
 	@echo
 	@echo "git push origin master && git push origin $(version)"
+
+clean:
+	find $(PACKAGE) -name '*.pyc' -exec rm -f {} +
+	find $(PACKAGE) -name '*.pyo' -exec rm -f {} +
+	find $(PACKAGE) -name '*~' -exec rm -f {} +
+	find $(PACKAGE) -name '._*' -exec rm -f {} +
+	find $(PACKAGE) -name '.coverage*' -exec rm -f {} +
+	rm -rf build/ dist/ MANIFEST 2>/dev/null || true
+
+.PHONY: build develop deps bump clean
