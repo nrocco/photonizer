@@ -2,3 +2,4 @@
 /photonizer.egg-info
 /dist
 *.pyc
+.DS_Store
