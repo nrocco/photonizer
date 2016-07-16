@@ -4,7 +4,7 @@ from re import compile
 from logging import getLogger
 from pycli_tools.commands import Command, arg
 from PIL import Image
-from imagehash import dhash
+from photonizer.dhash import dhash
 
 RE_DATE = compile(r'^(?P<year>\d{4}):(?P<month>\d{2}):(?P<day>\d{2}) (?P<hour>\d{2}):(?P<minute>\d{2}):(?P<second>\d{2})(\.(?P<subsec>\d+))?.*$')
 FILE_NAME = '{year}.{month:0>2d}.{day:0>2d}-{hour:0>2d}.{minute:0>2d}.{second:0>2d}.{subsec:0<3d}.{ext}'
