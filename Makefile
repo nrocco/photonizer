@@ -1,6 +1,7 @@
 PACKAGE ?= photonizer
 VIRTUAL_ENV ?= $(PWD)/env
 PY = $(VIRTUAL_ENV)/bin/python
+PIP = $(VIRTUAL_ENV)/bin/pip
 
 $(PY):
 	pyvenv env
