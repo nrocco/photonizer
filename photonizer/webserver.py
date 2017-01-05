@@ -3,8 +3,10 @@ from logging import getLogger
 
 from PIL import Image
 
-from bottle import Bottle, run
+from bottle import Bottle, run, TEMPLATE_PATH
 from bottle import static_file, template, abort
+
+TEMPLATE_PATH.insert(0, os.path.join(os.path.dirname(__file__), 'views'))
 
 log = getLogger('photonizer')
 
@@ -52,7 +54,7 @@ def index(path=""):
             directories.append(os.path.join(path, file))
         else:
             files.append(file)
-    return template('hello_template',
+    return template('gallery',
                     path=path,
                     paths=path.split('/'),
                     directories=directories,
@@ -66,7 +68,7 @@ def main(photos_dir, thumbs_dir, host='0.0.0.0', port=8080):
     log.info("Serving photos from {}".format(photos_dir))
     log.info("Serving thumbs from {}".format(thumbs_dir))
 
-    run(app, host=host, port=port, reloader=True)
+    run(app, host=host, port=port, reloader=False)
 
 
 if __name__ == '__main__':

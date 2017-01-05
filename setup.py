@@ -18,7 +18,12 @@ setup(
     author_email = 'dirocco.nico@gmail.com',
     url = 'http://nrocco.github.io',
     license = 'GPLv3',
-    install_requires = load_requirements('requirements.txt'),
+    install_requires = [
+        'pycli-tools>=2.0.2',
+        'bottle==0.12.11',
+        'Pillow==4.0.0',
+        'pyexiftool',
+    ],
     dependency_links = [
         'https://github.com/smarnach/pyexiftool/archive/v0.2.0.tar.gz#egg=pyexiftool-0.2.0',
     ],
