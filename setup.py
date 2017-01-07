@@ -1,13 +1,22 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/env python
 import re
 import io
 import codecs
 
 from setuptools import setup, find_packages
-def load_requirements(filename):
-    with io.open(filename, encoding='utf-8') as reqfile:
-        return [line.strip() for line in reqfile if not line.startswith('#')]
+from setuptools.command.test import test as TestCommand
+
+
+class NoseTestCommand(TestCommand):
+    def finalize_options(self):
+        TestCommand.finalize_options(self)
+        self.test_args = []
+        self.test_suite = True
+
+    def run_tests(self):
+        # Run nose ensuring that argv simulates running nosetests directly
+        import nose
+        nose.run_exit(argv=['nosetests'])
 
 
 setup(
@@ -16,16 +25,25 @@ setup(
     version = re.search(r'''^__version__\s*=\s*["'](.*)["']''', open('photonizer/__init__.py').read(), re.M).group(1),
     author = 'Nico Di Rocco',
     author_email = 'dirocco.nico@gmail.com',
-    url = 'http://nrocco.github.io',
+    url = 'https://github.com/nrocco/photonizer',
     license = 'GPLv3',
+    long_description = codecs.open('README.rst', 'rb', 'utf-8').read(),
+    test_suite = 'nose.collector',
+    download_url = 'https://github.com/nrocco/photonizer/tags',
+    include_package_data = True,
     install_requires = [
-        'pycli-tools>=2.0.2',
-        'bottle==0.12.11',
-        'Pillow==4.0.0',
+        'pycli-tools',
+        'bottle',
+        'Pillow',
         'pyexiftool',
     ],
     dependency_links = [
         'https://github.com/smarnach/pyexiftool/archive/v0.2.0.tar.gz#egg=pyexiftool-0.2.0',
+    ],
+    tests_require = [
+        'nose',
+        'mock',
+        'coverage',
     ],
     entry_points = {
         'console_scripts': [
@@ -47,4 +65,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Topic :: Utilities'
     ],
+    cmdclass = {
+        'test': NoseTestCommand
+    }
 )
