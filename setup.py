@@ -51,6 +51,7 @@ setup(
         ]
     },
     packages = find_packages(),
+    zip_safe = False,
     classifiers = [
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',

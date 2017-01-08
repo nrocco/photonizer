@@ -16,6 +16,11 @@ venv: $(PY)
 	$(PIP) install -r requirements.txt
 
 
+.PHONY: develop
+develop: venv
+	$(PY) setup.py develop
+
+
 .PHONY: test
 test: venv
 	$(PY) setup.py test
