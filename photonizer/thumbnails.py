@@ -12,7 +12,10 @@ def generate_thumbnail(photo, thumbnail):
 
     if exif:
         exif = dict(exif.items())
-        if exif[274] == 3:
+
+        if not 274 in exif:
+            pass
+        elif exif[274] == 3:
             file = file.rotate(180, expand=True)
         elif exif[274] == 6:
             file = file.rotate(270, expand=True)
