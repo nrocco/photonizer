@@ -5,24 +5,37 @@ prefix ?= /usr
 VIRTUAL_ENV ?= env
 PY = $(VIRTUAL_ENV)/bin/python
 PIP = $(VIRTUAL_ENV)/bin/pip
+PHOTONIZER = $(VIRTUAL_ENV)/bin/photonizer
+NOSETESTS = $(VIRTUAL_ENV)/bin/nosetests
+BOTTLE_PY = $(VIRTUAL_ENV)/bin/bottle.py
 
 
 $(PY):
 	python3 -m venv $(VIRTUAL_ENV)
 
 
-.PHONY: venv
-venv: $(PY)
+$(BOTTLE_PY): $(PY)
 	$(PIP) install -r requirements.txt
 
 
-.PHONY: develop
-develop: venv
+$(NOSETESTS): $(PY)
+	$(PIP) install -r requirements-tests.txt
+
+
+$(PHOTONIZER): $(PY) $(BOTTLE_PY)
 	$(PY) setup.py develop
 
 
+.PHONY: venv
+venv: $(PY) $(BOTTLE_PY)
+
+
+.PHONY: develop
+develop: $(PHOTONIZER)
+
+
 .PHONY: test
-test: venv
+test: $(PHOTONIZER) $(NOSETESTS)
 	$(PY) setup.py test
 
 

@@ -42,7 +42,6 @@ setup(
     ],
     tests_require = [
         'nose',
-        'mock',
         'coverage',
     ],
     entry_points = {
