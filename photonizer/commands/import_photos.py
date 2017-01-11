@@ -2,6 +2,7 @@ import os
 from logging import getLogger
 from pycli_tools.commands import Command, arg
 from photonizer.utils import parse_file, DIR_NAME
+from photonizer.thumbnails import generate_thumbnail
 
 log = getLogger('photonizer')
 
@@ -41,5 +42,10 @@ class ImportPhotos(Command):
 
             if not args.dry_run:
                 os.rename(source, destination)
+
+                thumbnail = DIR_NAME.format(basedir=args.thumbnails,
+                                            file=os.path.basename(file),
+                                            **date_parts)
+                generate_thumbnail(destination, thumbnail)
 
             log.info("[{}] Imported to {}".format(file, destination))

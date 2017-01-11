@@ -1,10 +1,9 @@
 import os
 from logging import getLogger
-
 from PIL import Image
-
 from bottle import Bottle, run, TEMPLATE_PATH
 from bottle import static_file, template, abort
+from photonizer.thumbnails import generate_thumbnail
 
 TEMPLATE_PATH.insert(0, os.path.join(os.path.dirname(__file__), 'views'))
 
@@ -20,21 +19,7 @@ def static_thumbs(path):
         photo = os.path.join(app.config['photos_dir'], path)
         if not os.path.isfile(photo):
             abort(404)
-
-        os.makedirs(os.path.dirname(thumb), exist_ok=True)
-        file = Image.open(photo)
-        exif = file._getexif()
-        if exif:
-            exif = dict(exif.items())
-            if exif[274] == 3:
-                file = file.rotate(180, expand=True)
-            elif exif[274] == 6:
-                file = file.rotate(270, expand=True)
-            elif exif[274] == 8:
-                file = file.rotate(90, expand=True)
-        file.thumbnail((300,300))
-        file.save(thumb, 'JPEG')
-        log.info("Generated thumbnail on the fly for {}".format(photo))
+        generate_thumbnail(photo, thumb)
 
     return static_file(path, root=app.config['thumbs_dir'])
 
