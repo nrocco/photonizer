@@ -39,6 +39,10 @@ def index(path=""):
             directories.append(os.path.join(path, file))
         else:
             files.append(file)
+
+    directories.sort()
+    files.sort()
+
     return template('gallery',
                     path=path,
                     paths=path.split('/'),
