@@ -8,7 +8,11 @@ log = getLogger('photonizer')
 def generate_thumbnail(photo, thumbnail):
     os.makedirs(os.path.dirname(thumbnail), exist_ok=True)
     file = Image.open(photo)
-    exif = file._getexif()
+
+    try:
+        exif = file._getexif()
+    except AttributeError:
+        exif = None
 
     if exif:
         exif = dict(exif.items())
