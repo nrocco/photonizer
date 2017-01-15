@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 setup(
     name = 'photonizer',
     description = 'a command line tool to organize photos using plain files and folders.',
-    version = '0.5.2',
+    version = '0.5.3',
     author = 'Nico Di Rocco',
     author_email = 'dirocco.nico@gmail.com',
     url = 'https://github.com/nrocco/photonizer',
