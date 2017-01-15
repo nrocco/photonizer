@@ -6,7 +6,7 @@ VIRTUAL_ENV ?= env
 PY = $(VIRTUAL_ENV)/bin/python
 PIP = $(VIRTUAL_ENV)/bin/pip
 PHOTONIZER = $(VIRTUAL_ENV)/bin/photonizer
-NOSETESTS = $(VIRTUAL_ENV)/bin/nosetests
+PYTEST = $(VIRTUAL_ENV)/bin/pytest
 BOTTLE_PY = $(VIRTUAL_ENV)/bin/bottle.py
 
 
@@ -18,7 +18,7 @@ $(BOTTLE_PY): $(PY)
 	$(PIP) install -r requirements.txt
 
 
-$(NOSETESTS): $(PY)
+$(PYTEST): $(PY)
 	$(PIP) install -r requirements-tests.txt
 
 
@@ -35,8 +35,8 @@ develop: $(PHOTONIZER)
 
 
 .PHONY: test
-test: $(PHOTONIZER) $(NOSETESTS)
-	$(PY) setup.py test
+test: $(PHOTONIZER) $(PYTEST)
+	$(PYTEST) --cov=photonizer --cov-report term --cov-report html tests/ $(ARGS)
 
 
 .PHONY: dist
